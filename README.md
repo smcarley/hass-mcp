@@ -109,6 +109,34 @@ Hass-MCP enables AI assistants like Claude to interact directly with your Home A
 
 To use with Claude Code CLI, you can add the MCP server directly using the `mcp add` command:
 
+### VS Code
+1. Open VS Code and go to the Command Palette (Ctrl+Shift+P)
+2. MCP: Add New MCP Server
+3. Add the following:
+```json
+{
+    "servers": {
+        "hass-mcp": {
+            "command": "docker",
+            "args": [
+                "run",
+                "-i",
+                "--rm",
+                "-e",
+                "HA_URL",
+                "-e",
+                "HA_TOKEN",
+                "hass-mcp"
+            ],
+            "env": {
+                "HA_URL": "https://ha.example.net",
+                "HA_TOKEN": "<HA_LONG_LIVED_TOKEN>"
+            }
+        },
+    }
+}
+```
+
 **Using Docker (recommended):**
 
 ```bash
