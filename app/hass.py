@@ -310,15 +310,22 @@ async def get_entities(
 
 @handle_api_errors
 async def call_service(domain: str, service: str, data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+
     """Call a Home Assistant service"""
+    # Filter out empty or unnecessary keys
     if data is None:
         data = {}
-    
+    filtered_data = {k: v for k, v in data.items() if v != ""}
+    url = f"{HA_URL}/api/services/{domain}/{service}"
+
+    logger.info(f"Calling api '{url}' with payload: {filtered_data}")
+
     client = await get_client()
+    
     response = await client.post(
-        f"{HA_URL}/api/services/{domain}/{service}", 
+        url, 
         headers=get_ha_headers(),
-        json=data
+        json=filtered_data
     )
     response.raise_for_status()
     

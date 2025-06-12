@@ -169,10 +169,24 @@ Hass-MCP provides the following resource endpoints:
 
 ## Development
 
+### Prerequisites
+
+Install uv & set up environemnt
+```bash
+curl -Ls https://astral.sh/uv/install.sh | sh
+uv sync
+```
+
 ### Running Tests
 
 ```bash
+uv add --dev pytest-asyncio
 uv run pytest tests/
+```
+
+### Building the Docker Image
+```bash
+docker build -t hass-mcp .
 ```
 
 ## License
