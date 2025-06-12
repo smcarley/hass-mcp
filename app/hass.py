@@ -312,10 +312,14 @@ async def get_entities(
 async def call_service(domain: str, service: str, data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
 
     """Call a Home Assistant service"""
+
     # Filter out empty or unnecessary keys
     if data is None:
         data = {}
     filtered_data = {k: v for k, v in data.items() if v != ""}
+    # Flatten 'params' into the payload if it exists
+    if "params" in filtered_data:
+        filtered_data.update(filtered_data.pop("params"))
     url = f"{HA_URL}/api/services/{domain}/{service}"
 
     logger.info(f"Calling api '{url}' with payload: {filtered_data}")
